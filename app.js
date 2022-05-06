@@ -5,13 +5,13 @@ const cors = require('cors');
 
 const app = express();
 const jsonParser = bodyParser.json();
-const PORT = 3001;
+const PORT = process.env.PORT;
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
-mongoose.connect("mongodb://localhost:27017/digitalContractTracingDB", {useNewUrlParser: true})
+mongoose.connect("mongodb+srv://jcl20:gYD72UUQavipuptf@cluster0.hocpu.mongodb.net/digitalContractTracingDB", {useNewUrlParser: true})
 
 //DATABASE SCHEMAS
 
@@ -61,49 +61,7 @@ const VisitorUser = mongoose.model("VisitorUser", visitorUserSchema);
 const SecurityPersonnel = mongoose.model("SecurityPersonnel", securityPersonnelSchema);
 const AdminAccount = mongoose.model("AdminAccount", adminAccountSchema);
 
-/*
-const newUser = new VisitorUser({
-    email: "trialemail@gmail.com",
-    password: "password"
-})
 
-newUser.save();
-
-const newSecurity = new SecurityPersonnel({
-    fullName: "Reynold Makabayan",
-    address: "kalaklan olongapo city",
-    contact: "0926348992",
-    email: "reynold@gmail.com",
-    password: "password"
-})
-
-newSecurity.save();
-*/
-
-
-/*
-const newContactData = new ContactData({
-    fullName: "Jhun Chester Lalongisip",
-    address: "kalaklan olongapo city",
-    contact: "0926348299",
-    timeIn: newTime
-})
-
-const JaycelContactData = new ContactData({
-    fullName: "Jaycel Lalongisip",
-    address: "kalaklan olongapo city",
-    contact: "0926348299",
-    timeIn: newTime
-})
-
-JaycelContactData.save();
-
-const newDailyRecord = new DailyRecord({
-    visitors: JaycelContactData
-})
-
-newDailyRecord.save();
-*/
 
 app.route("/visitor/login")
 .post(jsonParser, (req, res)=>{
