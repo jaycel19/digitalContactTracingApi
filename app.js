@@ -181,7 +181,7 @@ app.route("/personnel/security/addrecord")
                         {new: true},(err)=>{
                             console.log(err)
                         })
-                res.send(req.body)
+                res.send(true)
             }else{
                 const newDailyRecord = new DailyRecord({
                     visitors: [req.body]
