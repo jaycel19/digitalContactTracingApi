@@ -1,0 +1,20 @@
+{
+  "name": "digitalcontacttracingapi",
+  "version": "1.0.0",
+  "description": "digital contract tracing backend for celtech college",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tunnel": "ngrok http 3001"
+  },
+  "author": "Jhun Chester Lalongisip",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mongoose": "^6.3.2",
+    "ngrok": "^4.3.1",
+    "nodemon": "^2.0.16"
+  }
+}
