@@ -5,7 +5,7 @@ const cors = require('cors');
 
 const app = express();
 const jsonParser = bodyParser.json();
-const PORT = process.env.PORT;
+
 
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -168,7 +168,7 @@ app.route("/personnel/security/addrecord")
     const newDay = dateNow.getDay();
     const newMonth = dateNow.getMonth();
     const newYear = dateNow.getFullYear();
-    const dateStart = new Date(newYear, newMonth, newDay);
+    const dateStart = new Date(newYear, newMonth, newDay - 1);
     const dateR = new Date(newYear, newMonth, (newDay + 2));
     DailyRecord.findOne({dateOfEntry: {
         "$gte": dateStart, "$lte": dateR
@@ -187,7 +187,7 @@ app.route("/personnel/security/addrecord")
                     visitors: [req.body]
                 })
                 newDailyRecord.save();
-                res.send({newDaily: true});
+                res.send(true);
             }
         }
     })
@@ -205,6 +205,18 @@ app.route("/personnel/admin/getAll/:dateNow")
     DailyRecord.find({dateOfEntry: {
         "$gte": dateStart, "$lte": dateR
     }}, (err, foundResults)=>{
+        if(err){
+            res.send(err);
+        }else{
+            res.send(foundResults);
+        }
+    });
+});
+
+app.route("/personnel/admin/getAll")
+.get((req, res)=>{
+    
+    DailyRecord.find((err, foundResults)=>{
         if(err){
             res.send(err);
         }else{
@@ -265,6 +277,11 @@ app.route("/admin/login")
     })
 })
 
+let PORT = process.env.PORT;
+
+if(PORT == null || PORT == ""){
+    PORT = 3001;
+}
 
 app.listen(PORT, ()=>{
     console.log("Server open on port 3001")
