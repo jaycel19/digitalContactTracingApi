@@ -33,7 +33,6 @@ const contactDataSchema = {
     
     dateIn: {
         type: String,
-        default: `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`
     },
     timeIn: {
         type: String,
