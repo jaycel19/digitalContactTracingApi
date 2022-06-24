@@ -30,16 +30,20 @@ const contactDataSchema = {
     fullName: String,
     address: String,
     contactNum: String,
+    dateIn: {
+        type: String,
+        default: `${new Date().getDay}-${new Date().getMonth}-${new Date().getFullYear}`
+    },
     timeIn: customTimeSchema
 }
 
-const dailyRecordSchema = {
-    dateOfEntry: {
-        type: Date,
-        default: new Date()
-    },
-    visitors: []
-}
+// const dailyRecordSchema = {
+//     dateOfEntry: {
+//         type: Date,
+//         default: new Date()
+//     },
+//     visitors: []
+// }
 
 const visitorUserSchema = {
     email: String,
@@ -164,33 +168,13 @@ app.route("/personnel/security/signup")
 
 app.route("/personnel/security/addrecord")
 .post(jsonParser, (req, res)=>{
-    const dateNow = new Date();
-    const newDay = dateNow.getDay();
-    const newMonth = dateNow.getMonth();
-    const newYear = dateNow.getFullYear();
-    const dateStart = new Date(newYear, newMonth, newDay);
-    const dateR = new Date(newYear, newMonth, (newDay + 3));
-    DailyRecord.findOne({dateOfEntry: {
-        "$gte": dateStart, "$lt": dateR
-    }},(err, foundDailyRecords)=>{
-        if(err){
-            res.send(err)
-        }else{
-            if(foundDailyRecords){
-                DailyRecord.findByIdAndUpdate(foundDailyRecords._id, {$push: {visitors: req.body}},
-                        {new: true},(err)=>{
-                            console.log(err)
-                        })
-                res.send(true)
-            }else{
-                const newDailyRecord = new DailyRecord({
-                    visitors: [req.body]
-                })
-                newDailyRecord.save();
-                res.send(true);
-            }
-        }
+    const newContactData = new ContactData({
+        fullName: req.body.fullName,
+        address: req.body.address,
+        contact: req.body.contact
     })
+    newContactData.save();
+    res.send(true);
 })
 
 
@@ -202,7 +186,7 @@ app.route("/personnel/admin/getAll/:dateNow")
     const newYear = dateNow.getFullYear();
     const dateStart = new Date(req.params.dateNow);
     const dateR = new Date(newYear, newMonth, (newDay + 2));
-    DailyRecord.find({dateOfEntry: {
+    ContactData.find({dateIn: {
         "$gte": dateStart, "$lte": dateR
     }}, (err, foundResults)=>{
         if(err){
@@ -216,7 +200,7 @@ app.route("/personnel/admin/getAll/:dateNow")
 app.route("/personnel/admin/getAll")
 .get((req, res)=>{
     
-    DailyRecord.find((err, foundResults)=>{
+    ContactData.find((err, foundResults)=>{
         if(err){
             res.send(err);
         }else{
