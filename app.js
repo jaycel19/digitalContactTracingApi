@@ -15,11 +15,7 @@ mongoose.connect("mongodb+srv://jcl20:gYD72UUQavipuptf@cluster0.hocpu.mongodb.ne
 
 //DATABASE SCHEMAS
 
-const customTimeSchema = {
-    hour: String,
-    min: String,
-    sec: String
-}
+
 
 const adminAccountSchema = {
     username: String,
@@ -39,13 +35,7 @@ const contactDataSchema = {
     }
 }
 
-// const dailyRecordSchema = {
-//     dateOfEntry: {
-//         type: Date,
-//         default: new Date()
-//     },
-//     visitors: []
-// }
+
 
 const visitorUserSchema = {
     email: String,
@@ -61,8 +51,6 @@ const securityPersonnelSchema = {
 }
 
 const ContactData = mongoose.model("ContactData", contactDataSchema);
-//const DailyRecord = mongoose.model("DailyRecord", dailyRecordSchema);
-const CustomTime = mongoose.model("CustomTime", customTimeSchema);
 const VisitorUser = mongoose.model("VisitorUser", visitorUserSchema);
 const SecurityPersonnel = mongoose.model("SecurityPersonnel", securityPersonnelSchema);
 const AdminAccount = mongoose.model("AdminAccount", adminAccountSchema);
@@ -184,15 +172,7 @@ app.route("/personnel/security/addrecord")
 
 app.route("/personnel/admin/getAll/:dateNow")
 .get((req, res)=>{
-    const dateNow = new Date();
-    const newDay = dateNow.getDay();
-    const newMonth = dateNow.getMonth();
-    const newYear = dateNow.getFullYear();
-    const dateStart = new Date(req.params.dateNow);
-    const dateR = new Date(newYear, newMonth, (newDay + 2));
-    ContactData.find({dateIn: {
-        "$gte": dateStart, "$lte": dateR
-    }}, (err, foundResults)=>{
+    ContactData.find({dateIn: req.params.dateNow}, (err, foundResults)=>{
         if(err){
             res.send(err);
         }else{
@@ -213,18 +193,18 @@ app.route("/personnel/admin/getAll")
     });
 });
 
-app.route("/personnel/admin/reviewbydate/:from/:to")
-.get((req, res)=>{
-    DailyRecord.find({dateOfEntry:{
-        "$gte": new Date(req.params.from), "$lte": new Date(req.params.to)
-    }}, (err, foundResults)=>{
-        if(err){
-            res.send(err);
-        }else{
-            res.send(foundResults);
-        }
-    });
-});
+// app.route("/personnel/admin/reviewbydate/:from/:to")
+// .get((req, res)=>{
+//     DailyRecord.find({dateOfEntry:{
+//         "$gte": new Date(req.params.from), "$lte": new Date(req.params.to)
+//     }}, (err, foundResults)=>{
+//         if(err){
+//             res.send(err);
+//         }else{
+//             res.send(foundResults);
+//         }
+//     });
+// });
 
 app.route("/admin/register")
 .post(jsonParser, (req, res)=>{
