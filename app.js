@@ -174,6 +174,7 @@ app.route("/personnel/security/addrecord")
         fullName: req.body.fullName,
         address: req.body.address,
         contactNum: req.body.contact,
+        dateIn: req.body.dateIn,
         timeIn: req.body.timeIn
     })
     newContactData.save();
