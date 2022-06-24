@@ -261,11 +261,8 @@ app.route("/admin/login")
     })
 })
 
-let PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
-if(PORT == null || PORT == ""){
-    PORT = 3001;
-}
 
 app.listen(PORT, ()=>{
     console.log("Server open on port 3001")
