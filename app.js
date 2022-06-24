@@ -168,8 +168,8 @@ app.route("/personnel/security/addrecord")
     const newDay = dateNow.getDay();
     const newMonth = dateNow.getMonth();
     const newYear = dateNow.getFullYear();
-    const dateStart = new Date(newYear, newMonth, newDay - 1);
-    const dateR = new Date(newYear, newMonth, (newDay + 2));
+    const dateStart = new Date(newYear, newMonth, (newDay - 1));
+    const dateR = new Date(newYear, newMonth, (newDay + 1));
     DailyRecord.findOne({dateOfEntry: {
         "$gte": dateStart, "$lte": dateR
     }},(err, foundDailyRecords)=>{
