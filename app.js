@@ -59,7 +59,7 @@ const securityPersonnelSchema = {
 }
 
 const ContactData = mongoose.model("ContactData", contactDataSchema);
-const DailyRecord = mongoose.model("DailyRecord", dailyRecordSchema);
+//const DailyRecord = mongoose.model("DailyRecord", dailyRecordSchema);
 const CustomTime = mongoose.model("CustomTime", customTimeSchema);
 const VisitorUser = mongoose.model("VisitorUser", visitorUserSchema);
 const SecurityPersonnel = mongoose.model("SecurityPersonnel", securityPersonnelSchema);
