@@ -174,7 +174,7 @@ app.route("/personnel/security/addrecord")
     const newContactData = new ContactData({
         fullName: req.body.fullName,
         address: req.body.address,
-        contactNum: req.body.contactNum,
+        contactNum: req.body.contact,
         timeIn: req.body.timeIn
     })
     newContactData.save();
