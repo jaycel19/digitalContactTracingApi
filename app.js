@@ -30,11 +30,11 @@ const contactDataSchema = {
     fullName: String,
     address: String,
     contactNum: String,
+    
     dateIn: {
         type: String,
-        default: `${new Date().getDay}-${new Date().getMonth}-${new Date().getFullYear}`
+        default: `${new Date().getDay()}-${new Date().getMonth()}-${new Date().getFullYear()}`
     },
-    timeIn: customTimeSchema
 }
 
 // const dailyRecordSchema = {
@@ -168,11 +168,7 @@ app.route("/personnel/security/signup")
 
 app.route("/personnel/security/addrecord")
 .post(jsonParser, (req, res)=>{
-    const newContactData = new ContactData({
-        fullName: req.body.fullName,
-        address: req.body.address,
-        contact: req.body.contact
-    })
+    const newContactData = new ContactData(req.body)
     newContactData.save();
     res.send(true);
 })
