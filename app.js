@@ -26,7 +26,7 @@ const contactDataSchema = {
     fullName: String,
     address: String,
     contactNum: String,
-    
+    securityName: String,
     dateIn: {
         type: String,
     },
@@ -116,13 +116,18 @@ app.route("/visitor/signup")
 
 app.route("/personnel/security/login")
 .post(jsonParser, (req, res)=>{
+    
     SecurityPersonnel.findOne({email: req.body.email}, (err, foundSecurityPersonnel)=>{
         if(err){
             res.send(err);
         }else{
             if(foundSecurityPersonnel){
                 if(foundSecurityPersonnel.password === req.body.password){
-                    res.send(true);
+                    let returnData = {
+                        isLog: true,
+                        name: foundSecurityPersonnel.fullName
+                    }
+                    res.send(returnData);
                 }else{
                     res.send(false);
                 }
@@ -162,6 +167,7 @@ app.route("/personnel/security/addrecord")
         fullName: req.body.fullName,
         address: req.body.address,
         contactNum: req.body.contact,
+        securityName: req.body.loggedSecurity,
         dateIn: req.body.dateIn,
         timeIn: req.body.timeIn
     })
@@ -234,7 +240,11 @@ app.route("/admin/login")
         }else{
             if(foundAdminAccount){
                 if(foundAdminAccount.password === req.body.password){
-                    res.send(true);
+                    const returnData =  {
+                        isLog: true,
+                        username: foundAdminAccount.username
+                    }
+                    res.send(returnData);
                 }else{
                     res.send(false);
                 }
